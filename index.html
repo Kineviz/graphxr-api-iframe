@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="/index.js" type="module"></script>
+    <script type="module">
+      import getGxr from './index.js'
+      // Run code on page load
+      window.addEventListener("load", () => {
+        const iframe = document.querySelector("iframe");
+        const gxr = getGxr('iframe')
+        document.getElementById("btn").addEventListener("click", async () => {
+          const code = document.getElementById("text").value;
+          const task = eval(code);
+          let result;
+          if ('isRunning' in task && !task.isRunning) {
+            console.log("Task isn't running, so we'll run it ourselves")
+            result = await task.run();
+          } else {
+            console.log("Task is already running, so we'll wait for it to finish")
+            result = await task;
+          }
+          console.log("Task complete! Result is", result)
+        });
+
+        // When the textarea changes, save it to sessionStorage
+        document.getElementById("text").addEventListener("input", (e) => {
+          window.sessionStorage.setItem('text', e.target.value);
+        });
+
+        // Set textarea value from sessionStorage
+        document.getElementById("text").value = window.sessionStorage.getItem('text');
+      });
+    </script>
+  </head>
+  <body>
+    <div>
+      <textarea id="text" cols="97" rows="15"></textarea>
+    </div>
+    <div style="margin-bottom: 5px;">
+      <button id="btn" style="width: 100px; height: 30px">Submit</button>
+    </div>
+    <iframe
+      id="iframe"
+      src="https://graphxrdev.kineviz.com/share/644c12bcac86dc2e336edd4f/codesandbox/644c12c6ac86dc2e336edda0/23-04-28-14-39"
+      width="800"
+      height="600"
+      frameborder="0"
+    ></iframe>
+  </body>
+</html>
