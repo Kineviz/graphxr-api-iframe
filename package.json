@@ -1,6 +1,6 @@
 {
   "name": "@kineviz/graphxr-api-iframe",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "license": "MIT",
   "source": "src/index.js",
   "main": "dist/main.js",
