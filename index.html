@@ -1,54 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="UTF-8" />
+    <meta charset="utf-8" />
+    <title>Iframe Example</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <script src="/index.js" type="module"></script>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <meta name="description" content="" />
+    <meta name="author" content="Kineviz inc." />
+
+    <link rel="shortcut icon" href="/favicon.ico" />
+
+    <style>
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        margin: 0;
+        padding: 0;
+      }
+
+      iframe {
+        position: fixed;
+        left: 40%;
+        height: 100%;
+        width: 60%;
+        border: none;
+        overflow: hidden;
+      }
+
+      .header {
+        position: fixed;
+        left: 0;
+        height: 100%;
+        width: 40%;
+        border: none;
+        overflow: hidden;
+      }
+
+      .header > div {
+        float: left;
+      }
+
+      .header .code {
+        width: 80%;
+        height: 100%;
+      }
+
+      .header textarea {
+        width: 96%;
+        padding: 2%;
+        border-radius: 0px;
+        height: 96%;
+        color: #222222;
+        font-size: 18px;
+      }
+
+      .header .actions {
+        width: 18%;
+        padding: 1%;
+        height: 100%;
+      }
+
+      .header .btn {
+        width: 100%;
+        cursor: pointer;
+        text-align: center;
+        height: 60px;
+        line-height: 60px;
+        margin: 20px 1%;
+        border-radius: 4px;
+        color: white;
+        background-color: green;
+      }
+
+      .header a.help {
+        display: block;
+        text-align: center;
+        font-size: 32px;
+        color: black;
+        border: none;
+        text-decoration: none;
+        background-color: white;
+      }
+    </style>
+
     <script type="module">
-      import getGxr from './index.js'
+      import getGxr from "./src/index.js";
       // Run code on page load
       window.addEventListener("load", () => {
-        const iframe = document.querySelector("iframe");
-        const gxr = getGxr('iframe')
-        document.getElementById("btn").addEventListener("click", async () => {
-          const code = document.getElementById("text").value;
-          const task = eval(code);
-          let result;
-          if ('isRunning' in task && !task.isRunning) {
-            console.log("Task isn't running, so we'll run it ourselves")
-            result = await task.run();
-          } else {
-            console.log("Task is already running, so we'll wait for it to finish")
-            result = await task;
-          }
-          console.log("Task complete! Result is", result)
-        });
+        const gxr = getGxr("injection-graphXR-iframe-id");
+
+        document
+          .getElementById("btn-run")
+          .addEventListener("click", async () => {
+            const code = document.getElementById("code-area").value;
+            try {
+              const task = eval(document.getElementById("code-area").value);
+              let result;
+              if ("isRunning" in task && !task.isRunning) {
+                console.log("Task isn't running, so we'll run it ourselves");
+                result = await task.run();
+              } else {
+                console.log(
+                  "Task is already running, so we'll wait for it to finish"
+                );
+                result = await task;
+              }
+              console.log("Task complete! Result is", result);
+            } catch (error) {
+              console.error(error);
+            }
+          });
 
         // When the textarea changes, save it to sessionStorage
-        document.getElementById("text").addEventListener("input", (e) => {
-          window.sessionStorage.setItem('text', e.target.value);
-        });
+        // document.getElementById("code-area").addEventListener("input", (e) => {
+        //   window.sessionStorage.setItem("code-area", e.target.value);
+        // });
 
-        // Set textarea value from sessionStorage
-        document.getElementById("text").value = window.sessionStorage.getItem('text');
+        // // Set textarea value from sessionStorage
+        // document.getElementById("code-area").value =
+        //   window.sessionStorage.getItem("code-area");
       });
     </script>
   </head>
+
   <body>
-    <div>
-      <textarea id="text" cols="97" rows="15"></textarea>
+    <div class="header">
+      <div class="code">
+        <textarea id="code-area">
+/*
+Create a project ,from Project=>Data, create a view enable share 
+from the project window by clicking on the lock icon
+Get the shared view link, for example, here is a link for VC data set:
+https://graphxrdev.kineviz.com/share/64f6b2fe7af663f46880bd48/iframe-demo/64f6b55d7af663f46880c1fc/movies
+*/
+       
+
+gxr.flyToCenter(gxr.nodes().slice(0, 10).ids())
+
+       </textarea
+        >
+      </div>
+      <div class="actions">
+        <div id="btn-run" class="btn" title="run the code">RUN</div>
+        <a
+          class="help"
+          target="_blank"
+          href="https://www.graphxr.dev/graphxr-api/intro"
+          title="api help"
+        >
+          ?
+        </a>
+      </div>
     </div>
-    <div style="margin-bottom: 5px;">
-      <button id="btn" style="width: 100px; height: 30px">Submit</button>
-    </div>
-    <iframe
-      id="iframe"
-      src="https://graphxrdev.kineviz.com/share/644c12bcac86dc2e336edd4f/codesandbox/644c12c6ac86dc2e336edda0/23-04-28-14-39"
-      width="800"
-      height="600"
-      frameborder="0"
-    ></iframe>
+
+    <iframe id="injection-graphXR-iframe-id" origin="*"> </iframe>
+
+    <script id="script" type="text/javascript">
+      let URLSearch = new URLSearchParams(
+        window.location.search.replace(/^\?/gi, "")
+      );
+      let defaultEmbedGraphURL =
+        "https://graphxrdev.kineviz.com/share/64f6b2fe7af663f46880bd48/iframe-demo/64f6b55d7af663f46880c1fc/movies";
+      let iframe = document.getElementById("injection-graphXR-iframe-id");
+      iframe.setAttribute(
+        "src",
+        URLSearch.get("embedGraphURL") ||
+          URLSearch.get("url") ||
+          iframe.getAttribute("src") ||
+          defaultEmbedGraphURL
+      );
+    </script>
   </body>
 </html>
