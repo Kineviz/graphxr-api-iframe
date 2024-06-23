@@ -42,6 +42,7 @@ export default function (selector = '#graphxr-iframe') {
 
 // Recursively walk an object and throw an error on any function
 const checkForFunctions = (obj) => {
+  if (!obj) return;
   if (typeof obj === "function") {
     throw new Error("Cannot pass functions to iframe");
   }
