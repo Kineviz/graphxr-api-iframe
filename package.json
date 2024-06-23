@@ -1,13 +1,13 @@
 {
   "name": "@kineviz/graphxr-api-iframe",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "license": "MIT",
   "source": "src/index.js",
   "main": "dist/main.js",
   "scripts": {
     "build": "yarn run parcel build",
     "npm": "yarn build && yarn publish",
-    "dev":"yarn run parcel index.html --open"
+    "dev": "yarn run parcel index.html --open"
   },
   "devDependencies": {
     "parcel": "^2.8.3"

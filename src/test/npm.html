@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script type="module">
+      import gxr from 'https://cdn.skypack.dev/@kineviz/graphxr-api-iframe'
+      
+      const iframe = document.getElementById('graphxr-iframe');
+      iframe.addEventListener("load", async () => {
+        // Wait a few seconds for GraphXR to load.
+        setTimeout(async () => {
+          await gxr().graph().generate().sleep(2000).forceLayout();    
+          console.log('Done!')
+        }, 2000);
+      });
+    </script>
+  </head>
+  <body>
+    <iframe
+      id="graphxr-iframe"
+      src="http://localhost:8080/share/6474d057965b1524c5dd4d95/test/64776694b38ed443e056f60a/23-05-31-11-24"
+      width="800"
+      height="600"
+      frameborder="0"
+    ></iframe>
+  </body>
+</html>
