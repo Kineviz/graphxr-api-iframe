@@ -47,9 +47,12 @@ export default function (iframeId) {
 
 // Recursively walk an object and throw an error on any function
 const checkForFunctions = (obj) => {
+  if (!obj) return;
+
   if (typeof obj === 'function') {
     throw new Error('Cannot pass functions to iframe');
   }
+
   if (typeof obj === 'object') {
     Object.keys(obj).forEach(key => {
       checkForFunctions(obj[key]);
